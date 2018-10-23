@@ -27,7 +27,7 @@ module Rails
     def run
       prepare_environment
 
-      rollbar_managed { invoke_runner }
+      rollbar_managed { eval_runner }
     end
 
     def prepare_environment
@@ -35,17 +35,13 @@ module Rails
       ::Rails.application.require_environment!
     end
 
-    def invoke_runner
-      Rails::Command.invoke 'runner', @command
-    end
-
     def eval_runner
-      string_to_eval = File.read(runner_path)
-
-      ::Rails.module_eval(<<-EOL, __FILE__, __LINE__ + 2)
-          #{string_to_eval}
-      EOL
-    end
+      # string_to_eval = File.read(runner_path)
+      ::Rails::Command.invoke 'runner', @command
+    #   ::Rails.module_eval(<<-EOL, __FILE__, __LINE__ + 2)
+    #       #{string_to_eval}
+    #   EOL
+    # end
 
     def rollbar_managed
       yield
