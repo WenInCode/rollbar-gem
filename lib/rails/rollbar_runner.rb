@@ -27,12 +27,16 @@ module Rails
     def run
       prepare_environment
 
-      rollbar_managed { eval_runner }
+      rollbar_managed { invoke_runner }
     end
 
     def prepare_environment
       require File.expand_path('../environment', APP_PATH)
       ::Rails.application.require_environment!
+    end
+
+    def invoke_runner
+      Rails::Command.invoke 'runner', @command
     end
 
     def eval_runner
