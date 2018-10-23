@@ -41,7 +41,7 @@ module Rails
     #   ::Rails.module_eval(<<-EOL, __FILE__, __LINE__ + 2)
     #       #{string_to_eval}
     #   EOL
-    # end
+    end
 
     def rollbar_managed
       yield
